@@ -2,46 +2,42 @@
 
 #include <glad/gl.h>
 
-class GLShader
-{
+class GLShader {
 public:
-	explicit GLShader(const char* fileName);
-	GLShader(GLenum type, const char* text, const char* debugFileName = "");
-	~GLShader();
-	GLenum getType() const { return type_; }
-	GLuint getHandle() const { return handle_; }
+    explicit GLShader(const char* file) noexcept;
+    explicit GLShader(GLenum type, const char* source, const char* debugFileName=nullptr) noexcept;
+    ~GLShader();
 
+    GLenum getType() const { return type_; }
+    GLuint getHandle() const { return handle_; }
 private:
-	GLenum type_;
-	GLuint handle_;
+    GLenum type_;
+    GLuint handle_;
 };
 
-class GLProgram
-{
+class GLProgram {
 public:
-	GLProgram(const GLShader& a);
-	GLProgram(const GLShader& a, const GLShader& b);
-	GLProgram(const GLShader& a, const GLShader& b, const GLShader& c);
-	GLProgram(const GLShader& a, const GLShader& b, const GLShader& c, const GLShader& d, const GLShader& e);
-	~GLProgram();
+    explicit GLProgram(const GLShader& shader);
+    explicit GLProgram(const GLShader& shader, const GLShader& shader1);
+    explicit GLProgram(const GLShader& shader, const GLShader& shader1, const GLShader& shader2);
+    explicit GLProgram(const GLShader& shader, const GLShader& shader1, const GLShader& shader2,
+        const GLShader& shader3);
+    explicit GLProgram(const GLShader& shader, const GLShader& shader1, const GLShader& shader2,
+        const GLShader& shader3, const GLShader& shader4);
+    ~GLProgram();
 
-	void useProgram() const;
-	GLuint getHandle() const { return handle_; }
-
+    void useProgram();
+    GLuint getHandle() const { return handle_; }
 private:
-	GLuint handle_;
+    GLuint handle_;
 };
 
-GLenum GLShaderTypeFromFileName(const char* fileName);
-
-class GLBuffer
-{
+class GLBuffer {
 public:
-	GLBuffer(GLsizeiptr size, const void* data, GLbitfield flags);
-	~GLBuffer();
-
-	GLuint getHandle() const { return handle_; }
+    explicit GLBuffer(GLsizeiptr size, const void* data, GLbitfield flags) noexcept;
+    ~GLBuffer();
 
 private:
-	GLuint handle_;
+    GLuint handle_;
 };
+GLenum GLShaderTypeFromFileName(const char* file);
